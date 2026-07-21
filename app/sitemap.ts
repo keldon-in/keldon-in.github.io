@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { site, products } from "@/lib/site";
 
+// Required for `output: export` (GitHub Pages) — emit a static sitemap.xml.
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = ["", "/philosophy", "/products", "/vision"].map((path) => ({
     url: `${site.url}${path}`,
