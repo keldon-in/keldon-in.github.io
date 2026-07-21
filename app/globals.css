@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ease-calm: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: theme("colors.paper.DEFAULT");
+    color: theme("colors.ink.DEFAULT");
+    font-family: theme("fontFamily.sans");
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  ::selection {
+    background-color: theme("colors.evergreen.DEFAULT");
+    color: theme("colors.paper.DEFAULT");
+  }
+
+  /* Fraunces optical + soft tuning for a warmer, quieter voice */
+  .font-display {
+    font-optical-sizing: auto;
+    font-variation-settings: "SOFT" 40;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.evergreen.DEFAULT");
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Editorial eyebrow / kicker */
+  .eyebrow {
+    @apply font-sans text-[0.7rem] font-medium uppercase tracking-widest text-ink-mute;
+  }
+
+  /* Fluid display type — the editorial voice of the brand */
+  .display-hero {
+    @apply font-display font-light leading-[0.98] tracking-tightest;
+    font-size: clamp(2.75rem, 8.5vw, 7.5rem);
+  }
+  .display-xl {
+    @apply font-display font-light leading-[1.02] tracking-tightest;
+    font-size: clamp(2.25rem, 5.5vw, 4.75rem);
+  }
+  .display-lg {
+    @apply font-display font-light leading-[1.06] tracking-tightest;
+    font-size: clamp(1.9rem, 4vw, 3.25rem);
+  }
+  .display-md {
+    @apply font-display font-normal leading-[1.12] tracking-tight;
+    font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  }
+
+  .lead {
+    @apply font-sans font-light leading-relaxed text-ink-soft;
+    font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+  }
+
+  .rule {
+    @apply h-px w-full bg-ink/10;
+  }
+
+  .link-quiet {
+    @apply relative inline-block text-ink transition-colors duration-500 ease-calm hover:text-evergreen;
+  }
+  /* Premium underline that wipes in from the left on hover */
+  .link-quiet::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-quiet:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Slow, living drift for the hero backdrop glow */
+@keyframes aura-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(2%, -1.5%, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+.animate-aura {
+  animation: aura-drift 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Fine, still film grain to add material warmth (very subtle) */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
