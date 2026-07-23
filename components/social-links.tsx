@@ -28,13 +28,6 @@ function Icon({ id }: { id: Social["id"] }) {
           <path d="M11 21V10a4 4 0 0 1 4-4h1" />
         </svg>
       );
-    case "youtube":
-      return (
-        <svg {...p}>
-          <rect x="3" y="6" width="18" height="12" rx="3.5" />
-          <path d="m11 9.5 4 2.5-4 2.5z" fill="currentColor" stroke="none" />
-        </svg>
-      );
     case "email":
       return (
         <svg {...p}>

@@ -29,8 +29,11 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-[70] bg-paper/95 shadow-[0_1px_0_rgba(34,48,42,0.07)] backdrop-blur-md">
+      {/* Top Promotional Moving Marquee Ticker */}
+      <AnnouncementBar />
+
       {/* Main row — logo · nav · actions */}
-      <div className="mx-auto flex max-w-container items-center justify-between gap-4 px-5 py-3.5 md:px-10 md:py-4">
+      <div className="mx-auto flex max-w-container items-center justify-between gap-4 px-5 py-3 md:px-10 md:py-3.5">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2.5" aria-label="Keldon, home">
           <KeldonEmblem className="h-11 shrink-0 md:h-14" />
@@ -158,5 +161,42 @@ export function SiteHeader() {
         )}
       </AnimatePresence>
     </header>
+  );
+}
+
+function AnnouncementBar() {
+  const items = [
+    "✦ SPECIAL OFFER: 25% OFF ALL PRODUCTS",
+    "LIMITED TIME INAUGURAL DISCOUNT",
+    "ENJOY 25% OFF SITEWIDE",
+  ];
+
+  // Repeat sequence 4 times per loop to fill wide screens seamlessly
+  const sequence = [...items, ...items, ...items, ...items];
+
+  return (
+    <div
+      aria-label="Promotional Announcement"
+      className="group relative overflow-hidden bg-evergreen-deep py-2 text-paper transition-colors select-none border-b border-paper/10"
+    >
+      <div className="animate-marquee flex items-center whitespace-nowrap text-[0.66rem] font-medium uppercase tracking-[0.22em] text-paper/90">
+        <div className="flex items-center gap-8 px-4">
+          {sequence.map((item, idx) => (
+            <span key={`a-${idx}`} className="flex items-center gap-8">
+              <span>{item}</span>
+              <span className="h-1 w-1 rounded-full bg-sage/60" aria-hidden="true" />
+            </span>
+          ))}
+        </div>
+        <div className="flex items-center gap-8 px-4" aria-hidden="true">
+          {sequence.map((item, idx) => (
+            <span key={`b-${idx}`} className="flex items-center gap-8">
+              <span>{item}</span>
+              <span className="h-1 w-1 rounded-full bg-sage/60" aria-hidden="true" />
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

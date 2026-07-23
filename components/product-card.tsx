@@ -39,8 +39,8 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           )}
           {variant.mrp && variant.mrp > variant.price && (
-            <span className="absolute right-4 top-4 rounded-full bg-white/85 px-3 py-1 text-xs font-medium text-ink backdrop-blur">
-              Save {formatPrice(variant.mrp - variant.price)}
+            <span className="absolute right-4 top-4 rounded-full bg-[#1b2c22] px-3 py-1 text-xs font-medium text-paper shadow-md">
+              25% OFF · Save {formatPrice(variant.mrp - variant.price)}
             </span>
           )}
         </div>
@@ -74,10 +74,15 @@ export function ProductCard({ product }: { product: Product }) {
         )}
 
         <div className="mt-auto pt-6">
-          <div className="flex items-baseline gap-2.5" aria-live="polite">
+          <div className="flex items-baseline gap-2 flex-wrap" aria-live="polite">
             <span className="font-display text-2xl font-light text-ink">{formatPrice(variant.price)}</span>
             {variant.mrp && variant.mrp > variant.price && (
-              <span className="text-sm text-ink-faint line-through">{formatPrice(variant.mrp)}</span>
+              <>
+                <span className="text-sm text-ink-faint line-through">{formatPrice(variant.mrp)}</span>
+                <span className="rounded-full bg-evergreen/10 px-2 py-0.5 text-[0.68rem] font-semibold text-evergreen">
+                  25% OFF
+                </span>
+              </>
             )}
             <span className="ml-auto text-xs text-ink-mute">
               {outOfStock ? "Coming soon" : countLabel}

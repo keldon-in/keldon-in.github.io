@@ -91,8 +91,8 @@ export function ProductHero({ product }: { product: Product }) {
                 {variant.mrp && variant.mrp > variant.price && (
                   <>
                     <span className="text-base text-ink-faint line-through">{formatPrice(variant.mrp)}</span>
-                    <span className="rounded-full bg-evergreen/10 px-2.5 py-1 text-xs font-medium text-evergreen">
-                      Save {formatPrice(variant.mrp - variant.price)}
+                    <span className="rounded-full bg-evergreen/10 px-3 py-1 text-xs font-semibold text-evergreen">
+                      Save {formatPrice(variant.mrp - variant.price)} (25% OFF)
                     </span>
                   </>
                 )}

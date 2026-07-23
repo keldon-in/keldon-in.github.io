@@ -14,10 +14,9 @@ export const site = {
 export const contact = {
   phoneDisplay: "+91 91525 35156",
   phoneHref: "tel:+919152535156",
-  email: "nutraceuticals@aaruby.com",
+  email: "info@aaruby.com",
+  complaintsEmail: "nutraceuticals@aaruby.com",
   website: "www.aaruby.com",
-  // address:
-  //   "Unit 405, RP-112, Globe Arcade, Near Ganesh Mandir, MIDC Residential Area, Dombivli East, Thane 421203, Maharashtra, India",
 } as const;
 
 export type Channel = {
@@ -37,14 +36,14 @@ export const channels: Channel[] = [
   {
     id: "instagram",
     label: "Instagram",
-    detail: "@aaruby.nutraceuticals",
-    href: "https://instagram.com/aaruby.nutraceuticals",
+    detail: "@aarubynutraceuticals",
+    href: "https://www.instagram.com/aarubynutraceuticals/",
   },
   {
     id: "facebook",
     label: "Facebook",
     detail: "Aaruby Nutraceuticals",
-    href: "https://facebook.com/aarubynutraceuticals",
+    href: "https://www.facebook.com/aarubynutraceuticals/",
   },
   {
     id: "email",
@@ -58,13 +57,12 @@ export const channels: Channel[] = [
 
 export const certifications = ["ISO 22000", "GMP", "HACCP", "FSSAI Licensed"];
 
-// Social profiles — best-guess handles; confirm official URLs before launch.
-export type Social = { id: "instagram" | "facebook" | "youtube" | "email"; label: string; href: string };
+// Social profiles
+export type Social = { id: "instagram" | "facebook" | "email"; label: string; href: string };
 
 export const socials: Social[] = [
-  { id: "instagram", label: "Instagram", href: "https://instagram.com/aaruby.nutraceuticals" },
-  { id: "facebook", label: "Facebook", href: "https://facebook.com/aarubynutraceuticals" },
-  { id: "youtube", label: "YouTube", href: "https://youtube.com/@aaruby" },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/aarubynutraceuticals/" },
+  { id: "facebook", label: "Facebook", href: "https://www.facebook.com/aarubynutraceuticals/" },
   { id: "email", label: "Email", href: `mailto:${contact.email}` },
 ];
 
@@ -212,8 +210,12 @@ const GUMMY_FORMULAS: GummyFormula[] = [
   { slug: "brain", label: "Brain", accent: "#7A4FA0", benefit: "Focus, memory and clarity.", actives: "Omega-3, Bacopa, Vitamin B12", base: 599, mrp: 699 },
   { slug: "respiratory", label: "Basil (Respiratory)", accent: "#3E7D5A", benefit: "Everyday respiratory support.", actives: "Holy Basil (Tulsi), Vitamin C", base: 499, mrp: 599 },
   { slug: "menstruation", label: "Menstruation", accent: "#A63D5B", benefit: "Support through the monthly cycle.", actives: "Iron, B6, Cramp-bark, Magnesium", base: 549, mrp: 649 },
-  { slug: "prenatal", label: "Prenatal", accent: "#B06A8F", benefit: "Nutrition for pregnancy and planning.", actives: "Folate, Iron, DHA, Iodine", base: 649, mrp: 749 },
-  { slug: "uti", label: "UTI", accent: "#2B6EA0", benefit: "Everyday urinary tract support.", actives: "D-Mannose, Cranberry, Vitamin C", base: 549, mrp: 649 },
+  { slug: "uti", label: "UTI", accent: "#2B6EA0", benefit: "Everyday urinary tract support.", actives: "D-Mannose, Cranberry, Vitamin C", base: 599, mrp: 799 },
+];
+
+const PACK_OPTIONS: OptionValue[] = [
+  { slug: "60-gummies", label: "Pack of 60 gummies", note: "60 Gummies" },
+  { slug: "30-gummies", label: "Pack of 30 gummies", note: "30 Gummies" },
 ];
 
 const GUMMY_OPTIONS: ProductOption[] = [
@@ -223,24 +225,62 @@ const GUMMY_OPTIONS: ProductOption[] = [
     display: "select",
     values: GUMMY_FORMULAS.map((f) => ({ slug: f.slug, label: f.label, swatch: f.accent, note: f.benefit })),
   },
+  {
+    slug: "pack",
+    name: "Pack Count",
+    display: "chips",
+    values: PACK_OPTIONS,
+  },
 ];
 
 function buildGummyVariants(): Variant[] {
-  return GUMMY_FORMULAS.map((f) => ({
-    sku: `MV-${f.slug.toUpperCase().replace(/-/g, "")}`,
-    options: { formula: f.slug },
-    price: f.base,
-    mrp: f.mrp,
-    inStock: true,
-    title: f.label,
-    accent: f.accent,
-    default: f.slug === "kids-multivitamin",
-    meta: [
-      { label: "Formula", value: f.label },
-      { label: "Count", value: "30 gummies" },
-      { label: "Key actives", value: f.actives },
-    ],
-  }));
+  const variants: Variant[] = [];
+
+  for (const f of GUMMY_FORMULAS) {
+    const isKids = f.slug === "kids-multivitamin";
+
+    // 60 gummies pack
+    const mrp60 = isKids ? 999 : 1099;
+    const price60 = Math.round(mrp60 * 0.75); // 25% off
+
+    // 30 gummies pack
+    const mrp30 = isKids ? 699 : 799;
+    const price30 = Math.round(mrp30 * 0.75); // 25% off
+
+    variants.push(
+      {
+        sku: `MV-${f.slug.toUpperCase().replace(/-/g, "")}-60`,
+        options: { formula: f.slug, pack: "60-gummies" },
+        price: price60,
+        mrp: mrp60,
+        inStock: true,
+        title: `${f.label} (Pack of 60)`,
+        accent: f.accent,
+        default: f.slug === "kids-multivitamin",
+        meta: [
+          { label: "Formula", value: f.label },
+          { label: "Count", value: "60 gummies" },
+          { label: "Key actives", value: f.actives },
+        ],
+      },
+      {
+        sku: `MV-${f.slug.toUpperCase().replace(/-/g, "")}-30`,
+        options: { formula: f.slug, pack: "30-gummies" },
+        price: price30,
+        mrp: mrp30,
+        inStock: true,
+        title: `${f.label} (Pack of 30)`,
+        accent: f.accent,
+        meta: [
+          { label: "Formula", value: f.label },
+          { label: "Count", value: "30 gummies" },
+          { label: "Key actives", value: f.actives },
+        ],
+      }
+    );
+  }
+
+  return variants;
 }
 
 // ---------------------------------------------------------------------------
@@ -264,37 +304,37 @@ type HerbalFormula = {
 
 const HERBAL_FORMULAS: HerbalFormula[] = [
   // Immunity & Wellness
-  { slug: "daily-defense", label: "Daily Defense", group: "Immunity & Wellness", accent: "#C86A1F", benefit: "Everyday immunity, heart and joint support.", actives: "Amla, Tulsi, Guduchi", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 649, mrp: 799 },
-  { slug: "daily-moringa", label: "Daily Moringa", group: "Immunity & Wellness", accent: "#4B7A54", benefit: "Everyday superfood nutrition.", actives: "Moringa leaf extract", count: "60 capsules", dose: "2 capsules daily, preferably at meal times.", base: 549, mrp: 699 },
-  { slug: "daily-triphala", label: "Daily Triphala", group: "Immunity & Wellness", accent: "#7A4FA0", benefit: "Gentle detox and bowel wellness.", actives: "Triphala (Amla, Haritaki, Bibhitaki)", count: "60 capsules", dose: "2 to 3 capsules daily, at meal times.", base: 499, mrp: 599 },
-  { slug: "daily-green-tea", label: "Daily Green Tea", group: "Immunity & Wellness", accent: "#6E8B3D", benefit: "Supports a healthy metabolism.", actives: "Green tea catechins (EGCG)", count: "60 capsules", dose: "1 to 2 capsules daily, at meal times.", base: 549, mrp: 649 },
-  { slug: "daily-n-durance", label: "Daily N-Durance", group: "Immunity & Wellness", accent: "#C43D63", benefit: "Endurance and healthy circulation.", actives: "Herbal endurance blend", count: "60 capsules", dose: "2 to 4 capsules per day.", base: 699, mrp: 849 },
+  { slug: "daily-defense", label: "Daily Defense", group: "Immunity & Wellness", accent: "#C86A1F", benefit: "Everyday immunity, heart and joint support.", actives: "Amla, Tulsi, Guduchi", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 682, mrp: 909 },
+  { slug: "daily-moringa", label: "Daily Moringa", group: "Immunity & Wellness", accent: "#4B7A54", benefit: "Everyday superfood nutrition.", actives: "Moringa leaf extract", count: "60 capsules", dose: "2 capsules daily, preferably at meal times.", base: 682, mrp: 909 },
+  { slug: "daily-triphala", label: "Daily Triphala", group: "Immunity & Wellness", accent: "#7A4FA0", benefit: "Gentle detox and bowel wellness.", actives: "Triphala (Amla, Haritaki, Bibhitaki)", count: "60 capsules", dose: "2 to 3 capsules daily, at meal times.", base: 682, mrp: 909 },
+  { slug: "daily-green-tea", label: "Daily Green Tea", group: "Immunity & Wellness", accent: "#6E8B3D", benefit: "Supports a healthy metabolism.", actives: "Green tea catechins (EGCG)", count: "60 capsules", dose: "1 to 2 capsules daily, at meal times.", base: 682, mrp: 909 },
+  { slug: "daily-n-durance", label: "Daily N-Durance", group: "Immunity & Wellness", accent: "#C43D63", benefit: "Endurance and healthy circulation.", actives: "Herbal endurance blend", count: "60 capsules", dose: "2 to 4 capsules per day.", base: 682, mrp: 909 },
   // Heart & Cholesterol
-  { slug: "omega-3-double", label: "Omega-3 Double", group: "Heart & Cholesterol", accent: "#2E6B8F", benefit: "Double-strength fish oil for heart, joints and brain.", actives: "Fish oil (EPA/DHA), 2x strength", count: "60 softgels", dose: "1 to 2 softgels per day, before food.", base: 899, mrp: 1099 },
-  { slug: "omega-3-triple", label: "Omega-3 Triple", group: "Heart & Cholesterol", accent: "#1F6E7A", benefit: "Triple-strength omega-3 for all-round wellness.", actives: "Fish oil (EPA/DHA), 3x strength", count: "60 softgels", dose: "2 softgels per day, before food.", base: 1099, mrp: 1299 },
-  { slug: "daily-pomegranate", label: "Daily Pomegranate", group: "Heart & Cholesterol", accent: "#A63D5B", benefit: "Supports cardiac health and blood pressure.", actives: "Pomegranate extract (punicalagins)", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 649, mrp: 799 },
-  { slug: "daily-amla", label: "Daily Amla", group: "Heart & Cholesterol", accent: "#C25B4A", benefit: "Balances healthy triglyceride levels.", actives: "Bioactive Amla extract", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 549, mrp: 649 },
-  { slug: "omega-flax", label: "Omega Flax", group: "Heart & Cholesterol", accent: "#6D4AA0", benefit: "Plant omega for heart and brain.", actives: "Flaxseed oil (ALA)", count: "90 softgels", dose: "1 softgel 3 times a day, after food.", base: 599, mrp: 699 },
+  { slug: "omega-3-double", label: "Omega-3 Double", group: "Heart & Cholesterol", accent: "#2E6B8F", benefit: "Double-strength fish oil for heart, joints and brain.", actives: "Fish oil (EPA/DHA), 2x strength", count: "60 softgels", dose: "1 to 2 softgels per day, before food.", base: 682, mrp: 909 },
+  { slug: "omega-3-triple", label: "Omega-3 Triple", group: "Heart & Cholesterol", accent: "#1F6E7A", benefit: "Triple-strength omega-3 for all-round wellness.", actives: "Fish oil (EPA/DHA), 3x strength", count: "60 softgels", dose: "2 softgels per day, before food.", base: 682, mrp: 909 },
+  { slug: "daily-pomegranate", label: "Daily Pomegranate", group: "Heart & Cholesterol", accent: "#A63D5B", benefit: "Supports cardiac health and blood pressure.", actives: "Pomegranate extract (punicalagins)", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 682, mrp: 909 },
+  { slug: "daily-amla", label: "Daily Amla", group: "Heart & Cholesterol", accent: "#C25B4A", benefit: "Balances healthy triglyceride levels.", actives: "Bioactive Amla extract", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 682, mrp: 909 },
+  { slug: "omega-flax", label: "Omega Flax", group: "Heart & Cholesterol", accent: "#6D4AA0", benefit: "Plant omega for heart and brain.", actives: "Flaxseed oil (ALA)", count: "90 softgels", dose: "1 softgel 3 times a day, after food.", base: 682, mrp: 909 },
   // Brain & Sleep
-  { slug: "daily-brahmi", label: "Daily Brahmi", group: "Brain & Sleep", accent: "#4A6FA0", benefit: "Concentration, memory and mental wellness.", actives: "Brahmi (Bacopa monnieri)", count: "60 capsules", dose: "2 to 3 capsules daily, at meal times.", base: 599, mrp: 699 },
-  { slug: "sleep-n-rest", label: "Sleep N'Rest", group: "Brain & Sleep", accent: "#3B4A80", benefit: "For better quality sleep and rest.", actives: "Herbal sleep blend", count: "30 capsules", dose: "1 capsule 1 hour before sleep.", base: 549, mrp: 649 },
-  { slug: "daily-ashwagandha", label: "Daily Ashwagandha", group: "Brain & Sleep", accent: "#8A5A2B", benefit: "Sleep and stress management.", actives: "Ashwagandha root extract", count: "60 capsules", dose: "1 capsule 1 to 2 hours before dinner.", base: 599, mrp: 699 },
+  { slug: "daily-brahmi", label: "Daily Brahmi", group: "Brain & Sleep", accent: "#4A6FA0", benefit: "Concentration, memory and mental wellness.", actives: "Brahmi (Bacopa monnieri)", count: "60 capsules", dose: "2 to 3 capsules daily, at meal times.", base: 682, mrp: 909 },
+  { slug: "sleep-n-rest", label: "Sleep N'Rest", group: "Brain & Sleep", accent: "#3B4A80", benefit: "For better quality sleep and rest.", actives: "Herbal sleep blend", count: "30 capsules", dose: "1 capsule 1 hour before sleep.", base: 682, mrp: 909 },
+  { slug: "daily-ashwagandha", label: "Daily Ashwagandha", group: "Brain & Sleep", accent: "#8A5A2B", benefit: "Sleep and stress management.", actives: "Ashwagandha root extract", count: "60 capsules", dose: "1 capsule 1 to 2 hours before dinner.", base: 682, mrp: 909 },
   // Joint & Pain
-  { slug: "daily-boswellia", label: "Daily Boswellia", group: "Joint & Pain", accent: "#3E7D5A", benefit: "Respiratory support and easier breathing.", actives: "Boswellia serrata extract", count: "60 capsules", dose: "1 to 2 capsules morning and night, after food.", base: 599, mrp: 699 },
-  { slug: "fast-rhulief", label: "Fast Rhulief", group: "Joint & Pain", accent: "#C0392B", benefit: "Fast support for muscle and joint comfort.", actives: "Turmeric + Boswellia fast-acting blend", count: "60 softgels", dose: "2 softgels after food, once or twice daily.", base: 649, mrp: 799 },
-  { slug: "joint-rescue", label: "Joint Rescue", group: "Joint & Pain", accent: "#5B6BA8", benefit: "Joint mobility and pain relief.", actives: "Glucosamine + herbal blend", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 699, mrp: 849 },
-  { slug: "glucowalk", label: "Glucowalk", group: "Joint & Pain", accent: "#B7772A", benefit: "Complete joint support.", actives: "Turmeric + Boswellia + Glucosamine HCl", count: "90 capsules", dose: "3 capsules in the morning, after food.", base: 749, mrp: 899 },
+  { slug: "daily-boswellia", label: "Daily Boswellia", group: "Joint & Pain", accent: "#3E7D5A", benefit: "Respiratory support and easier breathing.", actives: "Boswellia serrata extract", count: "60 capsules", dose: "1 to 2 capsules morning and night, after food.", base: 682, mrp: 909 },
+  { slug: "fast-rhulief", label: "Fast Rhulief", group: "Joint & Pain", accent: "#C0392B", benefit: "Fast support for muscle and joint comfort.", actives: "Turmeric + Boswellia fast-acting blend", count: "60 softgels", dose: "2 softgels after food, once or twice daily.", base: 682, mrp: 909 },
+  { slug: "joint-rescue", label: "Joint Rescue", group: "Joint & Pain", accent: "#5B6BA8", benefit: "Joint mobility and pain relief.", actives: "Glucosamine + herbal blend", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 682, mrp: 909 },
+  { slug: "glucowalk", label: "Glucowalk", group: "Joint & Pain", accent: "#B7772A", benefit: "Complete joint support.", actives: "Turmeric + Boswellia + Glucosamine HCl", count: "90 capsules", dose: "3 capsules in the morning, after food.", base: 682, mrp: 909 },
   // Digestion
-  { slug: "gut-eaze-365", label: "Gut Eaze 365", group: "Digestion", accent: "#4B7A54", benefit: "Gut health from a blend of 14 herbs.", actives: "14-herb digestive blend", count: "60 capsules", dose: "2 capsules 1 hour before bed, with water.", base: 649, mrp: 799 },
+  { slug: "gut-eaze-365", label: "Gut Eaze 365", group: "Digestion", accent: "#4B7A54", benefit: "Gut health from a blend of 14 herbs.", actives: "14-herb digestive blend", count: "60 capsules", dose: "2 capsules 1 hour before bed, with water.", base: 682, mrp: 909 },
   // Blood Sugar
-  { slug: "gluco-balance", label: "Gluco Balance", group: "Blood Sugar", accent: "#2B6EA0", benefit: "Healthy blood sugar metabolism.", actives: "Herbal glucose-balance blend", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 699, mrp: 849 },
+  { slug: "gluco-balance", label: "Gluco Balance", group: "Blood Sugar", accent: "#2B6EA0", benefit: "Healthy blood sugar metabolism.", actives: "Herbal glucose-balance blend", count: "60 capsules", dose: "1 capsule morning and 1 at night, after food.", base: 682, mrp: 909 },
   // Skin & Hair
-  { slug: "flax-n-cumin", label: "Flax N'Cumin", group: "Skin & Hair", accent: "#C25B7C", benefit: "Skin and hair with complete Omega 3-6-9.", actives: "Flax + black cumin oil (Omega 3-6-9)", count: "90 softgels", dose: "1 softgel 3 times a day, after food.", base: 599, mrp: 699 },
-  { slug: "beauty-collagen", label: "Beauty Collagen", group: "Skin & Hair", accent: "#B06A8F", benefit: "Youthful skin, lush hair and shiny nails.", actives: "Collagen peptides, Vitamin C", count: "30 sachets", dose: "1 sachet once a day, after a meal.", base: 999, mrp: 1199 },
+  { slug: "flax-n-cumin", label: "Flax N'Cumin", group: "Skin & Hair", accent: "#C25B7C", benefit: "Skin and hair with complete Omega 3-6-9.", actives: "Flax + black cumin oil (Omega 3-6-9)", count: "90 softgels", dose: "1 softgel 3 times a day, after food.", base: 682, mrp: 909 },
+  { slug: "beauty-collagen", label: "Beauty Collagen", group: "Skin & Hair", accent: "#B06A8F", benefit: "Youthful skin, lush hair and shiny nails.", actives: "Collagen peptides, Vitamin C", count: "30 sachets", dose: "1 sachet once a day, after a meal.", base: 682, mrp: 909 },
   // Women's Health
-  { slug: "cramp-eaze", label: "Cramp Eaze", group: "Women's Health", accent: "#A63D5B", benefit: "Fast relief from menstrual cramps.", actives: "Triple-action herbal blend", count: "30 softgels", dose: "2 softgels after food, once or twice daily.", base: 549, mrp: 649 },
+  { slug: "cramp-eaze", label: "Cramp Eaze", group: "Women's Health", accent: "#A63D5B", benefit: "Fast relief from menstrual cramps.", actives: "Triple-action herbal blend", count: "30 softgels", dose: "2 softgels after food, once or twice daily.", base: 682, mrp: 909 },
   // Men's Health
-  { slug: "testobloom", label: "Testobloom", group: "Men's Health", accent: "#2F6E4F", benefit: "Healthy testosterone and stamina in men.", actives: "Herbal testosterone-support blend", count: "60 capsules", dose: "1 capsule per day, after food.", base: 899, mrp: 1099 },
+  { slug: "testobloom", label: "Testobloom", group: "Men's Health", accent: "#2F6E4F", benefit: "Healthy testosterone and stamina in men.", actives: "Herbal testosterone-support blend", count: "60 capsules", dose: "1 capsule per day, after food.", base: 682, mrp: 909 },
 ];
 
 const HERBAL_OPTIONS: ProductOption[] = [
@@ -334,7 +374,7 @@ function buildHerbalVariants(): Variant[] {
 export const products: Product[] = [
   {
     slug: "hb-plus",
-    name: "HB+ Juice",
+    name: "HB+ Syrup",
     category: "Prickly Pear · Stevia Fruit Nectar",
     categorySlug: "blood-vitality",
     badge: "Bestseller",
@@ -346,8 +386,8 @@ export const products: Product[] = [
     tint: "pear",
     form: "750 ml glass · liquid nectar",
     origin: "Wild-sourced prickly pear (Opuntia)",
-    price: 899, // PLACEHOLDER
-    mrp: 1099, // PLACEHOLDER
+    price: 674, // 25% off 899
+    mrp: 899, // Base MRP 899
     benefit: "Natural iron to support healthy hemoglobin.",
     attributes: [
       "Natural iron source",
@@ -403,8 +443,8 @@ export const products: Product[] = [
     tint: "honey",
     form: "Chewable gummies · 30 per bottle",
     origin: "Fruit-derived, vegetarian pectin base",
-    price: 449, // default variant price; real pricing lives on each variant
-    mrp: 549,
+    price: 749, // default variant price; real pricing lives on each variant
+    mrp: 999,
     benefit: "Pick your formula. Delicious nutrition in every bite.",
     attributes: [
       "100% vegetarian",
@@ -461,8 +501,8 @@ export const products: Product[] = [
     tint: "pear",
     form: "Botanical capsules & softgels",
     origin: "Standardised botanical extracts",
-    price: 649, // default variant price; real pricing lives on each variant
-    mrp: 799,
+    price: 682, // default variant price; real pricing lives on each variant
+    mrp: 909,
     benefit: "Targeted herbal support. Choose your formula.",
     attributes: [
       "Standardised extracts",

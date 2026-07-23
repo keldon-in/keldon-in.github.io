@@ -1,7 +1,7 @@
 # Keldon
 
 A premium storefront for a preventive-health company built to last a hundred years.
-Today, nutraceuticals refined from nature — HB+ Juice and Multivitamins, made by
+Today, nutraceuticals refined from nature — HB+ Syrup and Multivitamins, made by
 Aaruby Nutraceuticals. Tomorrow, the systems that help people live healthier,
 longer, better lives.
 

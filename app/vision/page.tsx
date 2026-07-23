@@ -38,7 +38,7 @@ const horizons = [
   {
     n: "06",
     h: "Consumer biotech",
-    b: "The frontier, made everyday, with the same restraint we bring to a bottle of juice.",
+    b: "The frontier, made everyday, with the same restraint we bring to a bottle of Syrup.",
   },
 ];
 

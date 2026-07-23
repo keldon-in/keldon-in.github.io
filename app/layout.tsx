@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "Aaruby Nutraceuticals",
     "preventive health",
     "nutraceuticals",
-    "HB+ juice",
+    "HB+ Syrup",
     "prickly pear",
     "multivitamins",
     "hemoglobin",

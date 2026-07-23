@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Container, Reveal, Float } from "@/components/primitives";
-import { ProductVisual } from "@/components/product-visual";
+import { Container, Reveal } from "@/components/primitives";
 import { ScienceVisual } from "@/components/science-visual";
 import { ProductCard } from "@/components/product-card";
 import { Newsletter } from "@/components/newsletter";
@@ -9,7 +8,6 @@ import {
   site,
   contact,
   getFeaturedProducts,
-  getDefaultVariant,
 } from "@/lib/site";
 
 const jsonLd = {
@@ -57,52 +55,73 @@ export default function HomePage() {
 /* ------------------------------------------------------------------ Hero */
 function Hero() {
   return (
-    <section className="relative overflow-hidden pt-28 md:pt-40">
-      <div
-        aria-hidden="true"
-        className="animate-aura pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(120% 80% at 82% 12%, rgba(167,183,149,0.35), transparent 55%), radial-gradient(90% 70% at 8% 96%, rgba(47,74,58,0.10), transparent 55%)",
-        }}
-      />
-      <Container className="grid grid-cols-1 items-center gap-10 pb-16 lg:grid-cols-2 lg:gap-16 lg:pb-24">
-        <div>
+    <section className="relative min-h-[640px] md:min-h-[720px] lg:min-h-[780px] w-full overflow-hidden pt-36 pb-16 md:pt-44 md:pb-24 lg:pt-48 flex items-center">
+      {/* Background Banner Image */}
+      <div className="absolute inset-0 -z-10">
+        <img
+          src="/banner.png"
+          alt="Keldon HB+ Syrup natural nutrition"
+          className="h-full w-full object-cover object-[75%_top] sm:object-[70%_top] md:object-[65%_top] lg:object-top"
+        />
+        {/* Soft gradient overlay for smooth text contrast on smaller screens */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-r from-[#e8e0d4]/85 via-[#e8e0d4]/50 to-transparent sm:from-[#e8e0d4]/70 sm:via-[#e8e0d4]/30 lg:from-[#e8e0d4]/20 lg:via-transparent"
+        />
+      </div>
+
+      <Container className="relative z-10 w-full">
+        <div className="max-w-xl lg:max-w-lg xl:max-w-xl">
           <Reveal immediate delay={0.1}>
-            <h1 className="display-hero text-ink" style={{ fontSize: "clamp(2.6rem,6.5vw,5.5rem)" }}>
-              Better inside.
+            <h1 className="font-display font-light text-[#1b2c22] leading-[1.08] text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+              Better health
               <br />
-              Stronger you.
+              is a choice we make
+              <br />
+              <em className="italic font-normal">every day.</em>
             </h1>
           </Reveal>
+
           <Reveal immediate delay={0.25}>
-            <p className="lead mt-6 max-w-md">
-              Premium nutraceuticals crafted with clean ingredients and honest
-              nutrition, for your everyday wellness and long-term health.
+            <div className="mt-5 mb-6 h-[2px] w-12 bg-[#c2ad8e]" />
+          </Reveal>
+
+          <Reveal immediate delay={0.35}>
+            <p className="font-sans font-light leading-relaxed text-[#4a554d] text-base sm:text-lg max-w-md">
+              Thoughtfully crafted nutrition with clean, bioavailable
+              ingredients and unwavering integrity.
             </p>
           </Reveal>
-          <Reveal immediate delay={0.4} className="mt-9 flex flex-wrap items-center gap-4">
+
+          <Reveal immediate delay={0.45} className="mt-8 flex flex-wrap items-center gap-5 sm:gap-6">
             <Link
               href="/products"
-              className="group inline-flex items-center gap-2 rounded-full bg-ink px-8 py-4 text-sm font-medium text-paper transition-all duration-500 ease-calm hover:bg-evergreen"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-[#1b2c22] px-7 py-3.5 text-xs font-semibold uppercase tracking-widest text-[#f5f2eb] transition-all duration-300 hover:bg-[#2c4436] hover:shadow-lg"
             >
-              Shop Now
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 ease-calm group-hover:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              EXPLORE OUR PRODUCTS
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </Link>
-            <Link href="/philosophy" className="link-quiet text-sm">
-              Our science
+
+            <Link
+              href="/philosophy"
+              className="text-xs font-semibold uppercase tracking-widest text-[#1b2c22] underline underline-offset-4 transition-colors hover:text-evergreen"
+            >
+              OUR STORY
             </Link>
           </Reveal>
+
           <Reveal immediate delay={0.55}>
-            <ul className="mt-12 grid max-w-lg grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4">
+            <ul className="mt-12 grid max-w-lg grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 pt-6 border-t border-[#1b2c22]/10">
               {[
                 { i: "leaf", t: "Natural Ingredients" },
                 { i: "flask", t: "Science Backed" },
                 { i: "heart", t: "Daily Wellness" },
                 { i: "shield", t: "Trusted Quality" },
               ].map((f) => (
-                <li key={f.t} className="flex flex-col items-start gap-2">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-sage/50 text-evergreen">
+                <li key={f.t} className="flex flex-col items-start gap-1.5">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sage/50 text-evergreen">
                     <FeatureIcon name={f.i} />
                   </span>
                   <span className="text-xs font-medium leading-tight text-ink-soft">{f.t}</span>
@@ -111,28 +130,6 @@ function Hero() {
             </ul>
           </Reveal>
         </div>
-
-        {/* Two products, staggered — each links to its product page */}
-        <Reveal immediate delay={0.3} className="w-full">
-          <div className="mx-auto grid w-full max-w-lg grid-cols-2 gap-4 lg:ml-auto lg:mr-0">
-            {[products[0], products[1]].map((p, i) => (
-              <Float key={p.slug} className={i === 1 ? "mt-10" : ""} duration={6 + i} delay={i * 0.8}>
-                <Link
-                  href={`/products/${p.slug}`}
-                  aria-label={`View ${p.name}`}
-                  className="block rounded-[24px] transition-all duration-500 ease-calm hover:-translate-y-1.5 hover:shadow-2xl"
-                >
-                  <ProductVisual
-                    slug={p.slug}
-                    accent={getDefaultVariant(p).accent}
-                    caption={getDefaultVariant(p).title}
-                    className="aspect-[3/4] w-full"
-                  />
-                </Link>
-              </Float>
-            ))}
-          </div>
-        </Reveal>
       </Container>
     </section>
   );
@@ -223,37 +220,108 @@ function Science() {
 }
 
 /* ----------------------------------------------------------- Testimonials */
-// Placeholder testimonials — replace with real, verifiable reviews before launch.
 const testimonials = [
-  { q: "Keldon's HB+ Juice has genuinely improved my energy levels. Clean ingredients and no aftertaste.", n: "Bhaven S." },
-  { q: "Finally, a multivitamin gummy that tastes good and works well. My daily essential.", n: "Reena S." },
-  { q: "Love the philosophy behind Keldon. You can feel the quality in every product.", n: "Unnati S." },
+  {
+    q: "Excellent quality products and great customer service. The ingredients are high quality, the packaging is premium, and the products have exceeded my expectations. Definitely a brand I trust and would recommend.",
+    n: "Sam K.",
+  },
+  {
+    q: "Very good HB+ Syrup, my hemoglobin levels increased.",
+    n: "A AS",
+  },
+  {
+    q: "Healthy option to increase haemoglobin level..",
+    n: "Suni Hari",
+  },
+  {
+    q: "Quality assured product range of multivitamin and other wellness products.",
+    n: "Reena Shah",
+  },
+  {
+    q: "Good and pure product.",
+    n: "Pooja Kadam",
+  },
+  {
+    q: "Very Good Product.",
+    n: "Gaurav Gupta",
+  },
+  {
+    q: "Keldon's HB+ Syrup has genuinely improved my energy levels. Clean ingredients and no aftertaste.",
+    n: "Bhaven S.",
+  },
+  {
+    q: "Good products.",
+    n: "Vihan Patil",
+  },
+  {
+    q: "Good and pure products.",
+    n: "Aditya Patil",
+  },
+  {
+    q: "Love the philosophy behind Keldon. You can feel the quality in every product.",
+    n: "Unnati S.",
+  },
 ];
 
 function Testimonials() {
   return (
-    <section className="bg-sage-soft py-20 md:py-24">
+    <section className="bg-sage-soft/60 py-20 md:py-28 overflow-hidden">
       <Container>
         <Reveal>
-          <h2 className="display-lg text-center text-ink">What our community says</h2>
+          <div className="text-center max-w-xl mx-auto">
+            <span className="eyebrow text-evergreen">Community Feedback</span>
+            <h2 className="display-lg text-ink mt-2">What our customers say</h2>
+            <p className="mt-3 text-sm text-ink-mute">
+              Real reviews from real people who trust Keldon for their daily health & wellness.
+            </p>
+          </div>
         </Reveal>
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <Reveal key={t.n} delay={i * 0.1}>
-              <figure className="flex h-full flex-col items-center gap-4 rounded-2xl bg-paper/60 p-8 text-center">
-                <div className="flex gap-0.5 text-evergreen" aria-label="5 out of 5 stars">
-                  {Array.from({ length: 5 }).map((_, s) => (
-                    <svg key={s} width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z" /></svg>
-                  ))}
-                </div>
-                <blockquote className="text-sm leading-relaxed text-ink-soft">&ldquo;{t.q}&rdquo;</blockquote>
-                <figcaption className="mt-auto text-sm font-medium text-ink">{t.n}</figcaption>
-              </figure>
-            </Reveal>
+      </Container>
+
+      {/* Slow Scrolling Horizontal Marquee Slider */}
+      <div className="mt-14 overflow-hidden select-none">
+        <div className="animate-marquee-slow flex items-stretch gap-6 px-4">
+          {/* Loop 1 */}
+          <div className="flex items-stretch gap-6">
+            {testimonials.map((t, i) => (
+              <TestimonialCard key={`t1-${i}`} t={t} />
+            ))}
+          </div>
+
+          {/* Loop 2 (Seamless loop) */}
+          <div className="flex items-stretch gap-6" aria-hidden="true">
+            {testimonials.map((t, i) => (
+              <TestimonialCard key={`t2-${i}`} t={t} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TestimonialCard({ t }: { t: { q: string; n: string } }) {
+  return (
+    <figure className="flex w-[320px] sm:w-[380px] shrink-0 flex-col gap-4 rounded-2xl border border-ink/8 bg-paper/90 p-7 shadow-sm transition-all duration-300 hover:border-ink/15 hover:shadow-md">
+      <div className="flex items-center justify-between">
+        <div className="flex gap-1 text-amber-600" aria-label="5 out of 5 stars">
+          {Array.from({ length: 5 }).map((_, s) => (
+            <svg key={s} width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="m12 2 2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z" />
+            </svg>
           ))}
         </div>
-      </Container>
-    </section>
+        <span className="text-[0.7rem] font-medium text-evergreen">5.0 ★</span>
+      </div>
+
+      <blockquote className="text-sm leading-relaxed text-ink-soft">
+        &ldquo;{t.q}&rdquo;
+      </blockquote>
+
+      <figcaption className="mt-auto pt-4 border-t border-ink/8 text-xs font-semibold text-ink">
+        {t.n}
+      </figcaption>
+    </figure>
   );
 }
 

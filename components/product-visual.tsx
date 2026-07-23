@@ -123,7 +123,7 @@ function HBPlusVisual({ className = "" }: { className?: string }) {
         <image href="/keldon-mark.png" x="109.5" y="272" width="21" height="28.9" preserveAspectRatio="xMidYMid meet" />
         <text x="120" y="324" textAnchor="middle" fontFamily="var(--font-sans), sans-serif" fontWeight="700" fontSize="17" letterSpacing="3" fill={INK}>KELDON</text>
         <line x1="92" y1="331" x2="148" y2="331" stroke={body} strokeWidth="1" opacity="0.4" />
-        <text x="120" y="348" textAnchor="middle" fontFamily="var(--font-sans), sans-serif" fontWeight="600" fontSize="11" letterSpacing="1" fill={MUTE}>HB+ JUICE</text>
+        <text x="120" y="348" textAnchor="middle" fontFamily="var(--font-sans), sans-serif" fontWeight="600" fontSize="11" letterSpacing="1" fill={MUTE}>HB+ Syrup</text>
       </svg>
     </div>
   );
