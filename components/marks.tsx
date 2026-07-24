@@ -103,6 +103,36 @@ export function AarubyMark({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * FssaiMark — FSSAI license & registration number lockup matching standard regulatory formatting.
+ */
+export function FssaiMark({
+  className = "",
+  light = false,
+}: {
+  className?: string;
+  light?: boolean;
+}) {
+  return (
+    <div
+      className={`inline-flex items-center gap-2 font-sans ${
+        light ? "text-paper/85" : "text-ink-soft"
+      } ${className}`}
+    >
+      <span className="font-bold tracking-tight text-sm select-none">
+        <span className={light ? "text-paper" : "text-[#002f6c]"}>f</span>
+        <span className={light ? "text-paper" : "text-[#002f6c]"}>s</span>
+        <span className={light ? "text-paper" : "text-[#002f6c]"}>s</span>
+        <span className={light ? "text-amber-400" : "text-[#e26d24]"}>a</span>
+        <span className={light ? "text-emerald-400" : "text-[#207a3c]"}>i</span>
+      </span>
+      <span className="text-xs font-medium tracking-tight">
+        Reg. No.:- <span className="font-semibold tabular-nums">30260423124228410</span>
+      </span>
+    </div>
+  );
+}
+
 /** Small hemoglobin-drop glyph echoing the HB+ product identity. */
 export function DropGlyph({ className = "" }: { className?: string }) {
   return (

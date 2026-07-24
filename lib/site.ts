@@ -17,6 +17,7 @@ export const contact = {
   email: "info@aaruby.com",
   complaintsEmail: "nutraceuticals@aaruby.com",
   website: "www.aaruby.com",
+  fssaiRegNo: "30260423124228410",
 } as const;
 
 export type Channel = {

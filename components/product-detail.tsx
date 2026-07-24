@@ -8,6 +8,7 @@ import { VariantSelector } from "@/components/variant-selector";
 import { useCart } from "@/components/cart";
 import { useVariant } from "@/components/use-variant";
 import { formatPrice, hasVariants, getVariantBySku, type Product } from "@/lib/site";
+import { FssaiMark } from "@/components/marks";
 
 /**
  * ProductHero — the interactive top of the product detail page. It owns the
@@ -78,11 +79,14 @@ export function ProductHero({ product }: { product: Product }) {
               {product.essence}
             </p>
             <p className="mt-5 max-w-md leading-relaxed text-ink-mute">{product.summary}</p>
-            {product.patent && (
-              <p className="mt-4 text-xs uppercase tracking-widest text-ink-faint">
-                A patented product · {product.patent}
-              </p>
-            )}
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-xs">
+              {product.patent && (
+                <span className="uppercase tracking-widest text-ink-faint">
+                  A patented product · {product.patent}
+                </span>
+              )}
+              <FssaiMark />
+            </div>
 
             {/* Purchase panel */}
             <div className="mt-8 rounded-2xl border border-ink/10 bg-paper-soft/50 p-5 md:p-6">

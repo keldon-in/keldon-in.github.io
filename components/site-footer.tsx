@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { KeldonEmblem, KeldonWordmark, AarubyMark } from "@/components/marks";
+import { KeldonEmblem, KeldonWordmark, AarubyMark, FssaiMark } from "@/components/marks";
 import { Container } from "@/components/primitives";
 import { SocialLinks } from "@/components/social-links";
 import { contact } from "@/lib/site";
@@ -31,6 +31,9 @@ export function SiteFooter() {
               >
                 <AarubyMark className="h-7" />
               </a>
+              <div className="mt-1 flex items-center gap-2 rounded-lg bg-paper/10 px-3 py-1.5 backdrop-blur-sm">
+                <FssaiMark light />
+              </div>
             </div>
           </div>
 
@@ -95,11 +98,11 @@ export function SiteFooter() {
               href="https://aaruby.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-inherit no-underline hover:text-inherit"
+              className="text-inherit no-underline hover:text-inherit font-medium"
             >
               Aaruby Nutraceuticals
-            </a>
-            .
+            </a>{" "}
+            · FSSAI Reg. No.:- {contact.fssaiRegNo}
           </p>
           <p className="max-w-lg leading-relaxed">
             These products are dietary supplements. They are not intended to
