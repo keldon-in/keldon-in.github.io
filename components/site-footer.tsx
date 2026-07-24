@@ -20,7 +20,7 @@ export function SiteFooter() {
             </p>
             <div className="mt-6 flex flex-col items-start gap-2 text-paper/60">
               <span className="text-[0.65rem] font-semibold uppercase tracking-widest text-paper/50">
-                Marketed by
+                A brand of
               </span>
               <a
                 href="https://aaruby.com/"
@@ -90,7 +90,7 @@ export function SiteFooter() {
         {/* Legal & Copyright */}
         <div className="mt-14 flex flex-col justify-between gap-4 border-t border-paper/12 pt-8 text-xs text-paper/45 md:flex-row md:items-center">
           <p>
-            © {new Date().getFullYear()} Keldon. Marketed by{" "}
+            © {new Date().getFullYear()} Keldon. A brand of{" "}
             <a
               href="https://aaruby.com/"
               target="_blank"
