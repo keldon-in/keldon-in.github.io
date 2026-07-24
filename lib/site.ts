@@ -386,8 +386,8 @@ export const products: Product[] = [
     tint: "pear",
     form: "750 ml glass · liquid nectar",
     origin: "Wild-sourced prickly pear (Opuntia)",
-    price: 674, // 25% off 899
-    mrp: 899, // Base MRP 899
+    price: 675, // 25% off 900
+    mrp: 900, // Base MRP 900
     benefit: "Natural iron to support healthy hemoglobin.",
     attributes: [
       "Natural iron source",
