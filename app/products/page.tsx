@@ -5,9 +5,15 @@ import { PageIntro } from "@/components/page-intro";
 import { ProductBrowser } from "@/components/product-browser";
 
 export const metadata: Metadata = {
-  title: "Shop",
+  title: "Shop All Products",
   description:
-    "Shop Keldon. Nutraceuticals refined from nature, third-party tested, and good enough for our own families.",
+    "Shop Keldon by Aaruby Nutraceuticals. Premium nutraceuticals refined from nature, third-party tested, including HB+ Prickly Pear Syrup, multivitamin gummies, and daily herbals.",
+  alternates: { canonical: "/products" },
+  openGraph: {
+    title: "Shop All Products | Keldon by Aaruby Nutraceuticals",
+    description:
+      "Browse Keldon by Aaruby Nutraceuticals. Patented HB+ Prickly Pear syrup, multivitamin gummies, and botanical herbals.",
+  },
 };
 
 export default function ProductsPage() {

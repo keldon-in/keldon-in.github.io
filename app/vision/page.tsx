@@ -6,7 +6,13 @@ import { PageIntro } from "@/components/page-intro";
 export const metadata: Metadata = {
   title: "The Vision",
   description:
-    "Keldon starts with honest nutraceuticals and intends to become the name people trust with their health for a lifetime.",
+    "Keldon by Aaruby Nutraceuticals starts with honest nutraceuticals and intends to become the name people trust with their health for a lifetime.",
+  alternates: { canonical: "/vision" },
+  openGraph: {
+    title: "Our Vision | Keldon by Aaruby Nutraceuticals",
+    description:
+      "Keldon by Aaruby Nutraceuticals — Building the next standard in everyday preventive health.",
+  },
 };
 
 const horizons = [

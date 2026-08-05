@@ -14,27 +14,30 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
-      name: site.name,
-      url: site.url,
-      description: site.description,
-      slogan: site.tagline,
-      email: contact.email,
-      telephone: contact.phoneDisplay,
+      "@type": "ItemList",
+      name: "Featured Nutraceuticals",
+      itemListElement: products.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Product",
+          name: p.name,
+          description: p.summary,
+          brand: {
+            "@type": "Brand",
+            name: site.name,
+            alternateName: site.maker,
+          },
+          offers: {
+            "@type": "Offer",
+            price: p.price,
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+            url: `${site.url}/products/${p.slug}`,
+          },
+        },
+      })),
     },
-    ...products.map((p) => ({
-      "@type": "Product",
-      name: p.name,
-      description: p.summary,
-      brand: { "@type": "Brand", name: site.name },
-      offers: {
-        "@type": "Offer",
-        price: p.price,
-        priceCurrency: "INR",
-        availability: "https://schema.org/InStock",
-        url: `${site.url}/products/${p.slug}`,
-      },
-    })),
   ],
 };
 
@@ -73,6 +76,9 @@ function Hero() {
       <Container className="relative z-10 w-full">
         <div className="max-w-xl lg:max-w-lg xl:max-w-xl">
           <Reveal immediate delay={0.1}>
+            <p className="mb-3 font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#6E1E2E]">
+              KELDON BY AARUBY NUTRACEUTICALS
+            </p>
             <h1 className="font-display font-light text-[#1b2c22] leading-[1.08] text-4xl sm:text-5xl lg:text-6xl tracking-tight">
               Better health
               <br />

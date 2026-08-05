@@ -27,11 +27,31 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return {};
+  const fullTitle = `${product.name} | ${site.name} by ${site.maker}`;
+  const fullDesc = `${product.name} by ${site.name} (${site.maker}) — ${product.benefit} ${product.summary}`;
   return {
-    title: product.name,
-    description: product.summary,
+    title: fullTitle,
+    description: fullDesc,
+    keywords: [
+      product.name,
+      site.name,
+      site.maker,
+      product.category,
+      "nutraceuticals",
+      ...product.attributes,
+    ],
     alternates: { canonical: `${site.url}/products/${product.slug}` },
-    openGraph: { title: product.name, description: product.summary },
+    openGraph: {
+      title: fullTitle,
+      description: fullDesc,
+      url: `${site.url}/products/${product.slug}`,
+      siteName: `${site.name} by ${site.maker}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: fullTitle,
+      description: fullDesc,
+    },
   };
 }
 
@@ -55,7 +75,16 @@ export default async function ProductPage({
     "@type": "Product",
     name: product.name,
     description: product.summary,
-    brand: { "@type": "Brand", name: site.name },
+    brand: {
+      "@type": "Brand",
+      name: site.name,
+      alternateName: site.maker,
+    },
+    manufacturer: {
+      "@type": "Organization",
+      name: site.maker,
+      url: "https://www.aaruby.com",
+    },
     category: product.category,
     offers: {
       "@type": "AggregateOffer",

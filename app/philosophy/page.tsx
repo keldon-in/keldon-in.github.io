@@ -6,7 +6,13 @@ import { PageIntro } from "@/components/page-intro";
 export const metadata: Metadata = {
   title: "Philosophy",
   description:
-    "We refine nature, we don't reinvent it. The honest rules behind everything Keldon makes.",
+    "We refine nature, we don't reinvent it. The honest rules behind everything Keldon and Aaruby Nutraceuticals make.",
+  alternates: { canonical: "/philosophy" },
+  openGraph: {
+    title: "Our Philosophy | Keldon by Aaruby Nutraceuticals",
+    description:
+      "We refine nature, we don't reinvent it. The honest rules behind everything Keldon and Aaruby Nutraceuticals make.",
+  },
 };
 
 const beliefs = [
