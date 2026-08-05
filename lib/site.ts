@@ -8,7 +8,7 @@ export const site = {
   tagline: "Rooted in Nature. Refined by Science.",
   description:
     "Keldon is a preventive-health company. Premium nutraceuticals refined from nature, and a growing store of everyday health essentials, each good enough for our own families.",
-  url: "https://keldon.health",
+  url: "https://www.keldon.in",
 } as const;
 
 export const contact = {
